@@ -1,4 +1,4 @@
-# Simulación TurtleBot3 con LIDAR y SLAM (gmapping) en Docker
+#  TurtleBot3 con LIDAR y SLAM en Docker
 
 ---
 
