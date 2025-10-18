@@ -1,4 +1,54 @@
+#  Simulación cuadrupedo con Pybulle
+
+##  Objetivo
+Desplegar un repositorio mediente docker el cual permita vizualizar el movimiento de un cuadrupedo mediante pybullet.
+
+## Ejecución del cuadrupedo 
+1. Para ejecuar el cuadrupedo se recomienda seguir los pasos del repositorio original de **https://github.com/erwincoumans/motion_imitation/tree/master**, el cual nos explica que lo primero que toca realizar es la instalación de algunas bases antiguas de python.
+
+```
+python3 setup.py install --user
+```
+Esto nos permitira no generar problemas a futuro con las descagas de algunas librerias.
+
+2. Se recomienda clonar el repostirio para realizar los trabajos mas rapido.
+
+```
+git clone https://github.com/erwincoumans/motion_imitation.git
+cd motion_imitation
+```
+Luego de esto el creador recomienda installar una libreria que permitira el despliege del cuadrupedo
+```
+sudo apt install libopenmpi-dev
+```
+3. **Se recomienda trabajar en un entorno virtual**. Para desplegar correctamente el cuadrupedo creamos el docker e instalamos los requerimientos para desplegarlo
+**Docker File**
+```
+FROM ubuntu:22.04
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update && apt install -y \
+    python3 python3-pip python3-dev \
+    git xvfb x11-apps libgl1-mesa-glx libglib2.0-0 \
+    && apt clean
+WORKDIR /app
+COPY . /app
+RUN pip install --upgrade pip
+RUN pip install pybullet numpy matplotlib gym
+CMD ["python3", "-m", "motion_imitation.examples.run_simulator"]
+```
+**Requeriemientos**
+Estos requerimientos se encontraran dentro de la carpeta del repositorio
+```
+pip3 install -r requirements.txt
+```
+4. Luego de esto solo faltaria construir y correr el docker.
+
+```
+sudo docker build -t motion_imitation .
+python3 -m motion_imitation.examples.test_env_gui --robot_type=A1 --motor_control_mode=Position --on_rack=True
+```
 #  TurtleBot3 con LIDAR y SLAM en Docker
+
 
 ---
 
